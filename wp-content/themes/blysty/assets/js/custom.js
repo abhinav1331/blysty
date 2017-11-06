@@ -281,10 +281,25 @@ function saveblyst(event) {
 	});
 }
     jQuery(document).ready(function(){
+    	
     jQuery(window).scroll(function(){
+    	var checkVal = 0;
       var visible = jQuery(".footer_section").visible( "partial" );
       if(visible == true) {
+      	 	disableScroll();
+      	var checkVal = parseInt(checkVal) + 1;
+     
       jQuery(".loader").hide();
+      var checkMyscroll = jQuery("input[name='myscrollCount']").val();
+      if(checkVal == checkMyscroll) {
+      	enableScroll();
+      	return false;
+      } else {
+      	jQuery("input[name='myscrollCount']").val(checkVal);
+      }
+      if(checkVal != 1)  {
+		
+      }
       	
 
 	var blystId = jQuery("input[name='myPagination']").val();
@@ -298,7 +313,8 @@ function saveblyst(event) {
 			cache: false,
 			data:{blystId:blystId,format:'raw'},
 			success:function(resp){
-
+				 var check = 0;
+				enableScroll();
 				if(resp == "") {
 					jQuery(".loader").empty();
 				} else {
@@ -492,4 +508,38 @@ function formSubmitUpdate(e) {
 		}
 		
 	});
+}
+
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+function preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault)
+      e.preventDefault();
+  e.returnValue = false;  
+}
+
+function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+}
+
+function disableScroll() {
+  if (window.addEventListener) // older FF
+      window.addEventListener('DOMMouseScroll', preventDefault, false);
+  window.onwheel = preventDefault; // modern standard
+  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+  window.ontouchmove  = preventDefault; // mobile
+  document.onkeydown  = preventDefaultForScrollKeys;
+}
+
+function enableScroll() {
+    if (window.removeEventListener)
+        window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.onmousewheel = document.onmousewheel = null; 
+    window.onwheel = null; 
+    window.ontouchmove = null;  
+    document.onkeydown = null;  
 }

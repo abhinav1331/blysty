@@ -766,7 +766,6 @@ Class Pins {
 		} else {
 			$offSet = ( $offSet - 1 ) * 20; 
 		}
-		echo "SELECT * FROM `im_pins` WHERE `pin_status` = 1 ORDER BY `id` DESC LIMIT 20 OFFSET $offSet";
 		$getRes = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `pin_status` = 1 ORDER BY `id` DESC LIMIT 20 OFFSET $offSet");
 		foreach ($getRes as $key => $value) {
 			$myName = get_user_meta($value->pin_author , "first_name" , true);
@@ -1140,12 +1139,14 @@ Class Pins {
 	}
 	function getMyBlystBoard($userID , $visibility) {
 		global $wpdb;
+		$i =1;
+		echo "SELECT * FROM `im_blyst_board` WHERE `user_id` = $userID AND `visibility` = $visibility";
 		$im_blyst_board = $wpdb->get_results("SELECT * FROM `im_blyst_board` WHERE `user_id` = $userID AND `visibility` = $visibility");
 		foreach ($im_blyst_board as $key => $value) {
 			$myBlystName = $value->name;
 			$blystID = $value->id;
 			?>
-			<div class="grid-item post-wrapper">
+			<div class="grid-item post-wrapper <?php if($i == 1) { echo  'active'; } ?>">
 				<div class="wrapper">
 					<div class="post-inner">
 						<?php 
@@ -1166,14 +1167,17 @@ Class Pins {
 					</div>
 					<div class="edit-container">
 						<h4><?php echo $myBlystName; ?></h4>
-						<div class="link-con text-right">
-							<a class="green-btn costom-btn" onclick="getMyBoard('<?php echo $value->id; ?>');" href="javascript:void(0)">Edit</a>
-						</div>
+						<?php if (!is_page('user-profile')): ?>
+							<div class="link-con text-right">
+								<a class="green-btn costom-btn" onclick="getMyBoard('<?php echo $value->id; ?>');" href="javascript:void(0)">Edit</a>
+							</div>
+						<?php endif ?>
+						
 					</div>
 				</div>
 			</div>
 			<?php
-			
+			$i++;
 		}
 	}
 

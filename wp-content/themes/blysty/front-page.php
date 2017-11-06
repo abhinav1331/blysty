@@ -29,11 +29,11 @@ $countPins = $Pins->countPins($user->ID , 1);
 		</div>
 	</div>
 </div>
-<input type="text" name="myPagination" value="1">
+<input type="hidden" name="myPagination" value="1">
 <?php 
 	if($countPins == "20") {
 		?>
-			<div class="footer_section"><div class="loader"><img width="100" src="http://i.imgur.com/2Sdtwfj.gif" alt=""></div></div>
+			<div class="footer_section"><div class="loader"><img width="100" src="http://i.imgur.com/2Sdtwfj.gif" alt=""><input type="hidden" name="myscrollCount" value=""></div></div>
 		<?php
 	}
  ?>

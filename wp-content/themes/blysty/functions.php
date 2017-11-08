@@ -803,6 +803,52 @@ Class Pins {
 			<?php
 		}
 	} 
+	function viewPinsCat($userId , $offSet , $catID) { 
+
+		$Pins = new Pins();
+		global $wpdb;
+		if($offSet==1) {
+			$offSet=0;
+		} else {
+			$offSet = ( $offSet - 1 ) * 20; 
+		}
+		$getRes = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `pin_status` = 1 AND `category` = $catID ORDER BY `id` DESC LIMIT 20 OFFSET $offSet");
+		foreach ($getRes as $key => $value) {
+			$myName = get_user_meta($value->pin_author , "first_name" , true);
+			$getCatName = $wpdb->get_results("SELECT * FROM `im_category_pins` WHERE `id` = $value->category");
+		
+			$profileImage = get_user_meta($value->pin_author , "profileImage" , true);
+			?>
+			<div class="grid-item post-wrapper">
+					<div class="post">
+						<figure class="post-tumb">
+							<img src="<?php echo $value->attachment; ?>" alt="Post">
+						</figure>
+						<div class="post-details">
+							<div class="post-header">
+								<a href="#"><span><?php echo count(json_decode($value->blyst_content)) ?></span><h3><?php echo $value->name; ?></h3></a>
+							</div>
+
+							<div class="post-info">
+								<div class="avatar">
+									<figure style="background-image: url(<?php echo $profileImage; ?>);"></figure>
+								</div>
+								<div class="post-arthur">
+									<h4><?php echo $myName; ?></h4>
+									<h5><?php echo $getCatName[0]->category_name; ?></h5>
+								</div>
+							</div>
+							<div class="liks">
+								<div class="counter">
+									<a href="javascript:void(0)" onclick="likeTheBlyst(<?php echo $value->id ?>,this)" class="<?php if($Pins->currentUserLikked($value->id) == 1) { echo "active"; } ?>"><i class="fa fa-heart"></i> <span><?php echo $Pins->getPinsLike($value->id) ?></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<?php
+		}
+	} 
 
 	function countPins($userId , $offSet) { 
 		global $wpdb;
@@ -812,6 +858,16 @@ Class Pins {
 			$offSet = ( $offSet - 1 ) * 20; 
 		}
 		$getRes = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `pin_status` = 1 ORDER BY `id` DESC LIMIT 20 OFFSET $offSet");
+		return count($getRes);
+	}
+	function countPinsCat($userId , $offSet , $catID) { 
+		global $wpdb;
+		if($offSet==1) {
+			$offSet=0;
+		} else {
+			$offSet = ( $offSet - 1 ) * 20; 
+		}
+		$getRes = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `pin_status` = 1 AND `category` = $catID ORDER BY `id` DESC LIMIT 20 OFFSET $offSet");
 		return count($getRes);
 	}
 

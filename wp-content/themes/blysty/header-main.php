@@ -1,5 +1,7 @@
 <?php 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+
+$Pins = new Pins();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +48,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 					</a>
 				</div>
 				<div class="add">
-					<a href="#" data-toggle="modal" data-target="#addBlysty">
+					<a href="#" data-toggle="modal" data-target="#createBlysty">
 						<span>
 							<svg version="1.1" class="plus-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="37px" height="37px" viewBox="5.498 2.397 20.004 20.005" enable-background="new 5.498 2.397 20.004 20.005" xml:space="preserve">
 								<path fill="#6c9e72" d="M24.453,10.197h-6.75v-6.75c0-0.58-0.47-1.049-1.049-1.049h-2.308c-0.58,0-1.049,0.47-1.049,1.049v6.75h-6.75 c-0.58,0-1.049,0.47-1.049,1.049v2.308c0,0.58,0.47,1.049,1.049,1.049h6.75v6.75c0,0.579,0.47,1.049,1.049,1.049h2.309 c0.579,0,1.049-0.47,1.049-1.049v-6.75h6.75c0.579,0,1.049-0.47,1.049-1.049v-2.308C25.502,10.667,25.033,10.197,24.453,10.197z"></path>
@@ -74,9 +76,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 					<div class="btn-group">
 						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Categories<span class="caret"></span></button>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="categories.php">categories1</a></li>
-							<li><a href="categories.php">categories2</a></li>
-							<li><a href="categories.php">categories3</a></li>
+							<?php echo $Pins->getMyCategories(); ?>
 						</ul>
 					</div>
 				</div>

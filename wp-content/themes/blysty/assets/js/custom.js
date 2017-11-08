@@ -343,6 +343,7 @@ function saveblyst(event) {
   })
 //Save a Pin 
 	function allEvents() {
+		alert("aaaaaaaaaaa");
 		var headheight = jQuery('header').outerHeight();
 		jQuery('.page-wraspper').css('padding-top', headheight);
 

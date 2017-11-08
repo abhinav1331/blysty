@@ -4,6 +4,8 @@
 */
 get_header('main');
 $Pins = new Pins();
+$user = wp_get_current_user();
+$countPins = $Pins->countPins($user->ID , 1);
 ?>
 <div class="categories-temp page-wraspper">
 	<div class="categories-wrapper">

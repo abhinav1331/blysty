@@ -399,6 +399,7 @@ function likeTheBlyst(pinID , event) {
 		success:function(resp){
 			if(resp == 1) {
 				var countt = jQuery(event).find("span").text();
+				
 				var FINN = parseInt(countt) + 1;
 				jQuery(event).find("span").text(FINN);
 				jQuery(event).addClass("active");

@@ -1370,6 +1370,7 @@ Class Pins {
 	function getMyBlystDetails($pinID) {
 		global $wpdb;
 		$Pins = new Pins();
+		$users = new users();
 		$getMyPinDetails = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `id` = $pinID");
 
 			$myName = get_user_meta($getMyPinDetails[0]->pin_author , "first_name" , true);
@@ -1422,19 +1423,21 @@ Class Pins {
 					</svg>
 					<span>Share</span>
 				</a>
-				<a href="#" class="green-btn">
+				<?php if ($users->UserFollowStatus($getMyPinDetails[0]->pin_author) != 2): ?>
+				<a href="javascript:void(0)" class="green-btn" <?php if($users->UserFollowStatus($getMyPinDetails[0]->pin_author) != "Following") { ?> onclick="followTheUser('<?php echo $getMyPinDetails[0]->pin_author; ?>' , this);" <?php } ?>>
 					<svg version="1.1" class="plus-icon" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="9.3 6.2 12.4 12.399" enable-background="new 9.3 6.2 12.4 12.399" xml:space="preserve">
 						<g transform="translate(0,-952.36218)">
 							<path d="M15.5,958.562c-0.822,0-1.488,0.666-1.488,1.488v3.224h-3.224c-0.822,0-1.488,0.666-1.488,1.488s0.667,1.488,1.488,1.488 h3.224v3.223c0,0.822,0.666,1.488,1.488,1.488c0.822,0,1.488-0.666,1.488-1.487v-3.224h3.224c0.821,0,1.488-0.667,1.488-1.488 s-0.667-1.488-1.488-1.488h-3.224v-3.224C16.988,959.228,16.322,958.562,15.5,958.562L15.5,958.562z"></path>
 						</g>
 					</svg>
-					<span>Follow</span>
+					<span><?php echo $users->UserFollowStatus($getMyPinDetails[0]->pin_author); ?></span>
 				</a>
-				<a href="#" class="green-btn">
+				<?php endif ?>
+				<a href="javascript:void(0)" onclick="likeTheBlyst(<?php echo $getMyPinDetails[0]->id ?>,this)" class="green-btn <?php if($Pins->currentUserLikked($getMyPinDetails[0]->id) == 1) { echo "active"; } ?>">
 					<svg version="1.1" class="heart-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="10px" viewBox="6.938 4.886 17.167 15.054" enable-background="new 6.938 4.886 17.167 15.054" xml:space="preserve">
 						<path d="M11.954,4.886c-1.29,0-2.579,0.496-3.546,1.463c-1.959,1.959-1.959,5.159,0,7.118l6.696,6.299 c0.124,0.1,0.273,0.174,0.422,0.174s0.297-0.05,0.421-0.174l6.696-6.299c0.967-0.967,1.463-2.257,1.463-3.546 s-0.496-2.579-1.463-3.546c-0.868-0.868-1.984-1.265-3.15-1.265c-1.413,0-2.852,0.595-3.918,1.637L15.55,6.771 c0,0-0.025,0-0.025-0.025C14.483,5.803,13.218,4.886,11.954,4.886L11.954,4.886z"></path>
 					</svg>
-					<span>Like</span>
+					<span><?php if($Pins->currentUserLikked($getMyPinDetails[0]->id) == 1) { echo "Liked"; } else { echo "Like"; } ?></span>
 				</a>
 				<a href="#" class="green-btn">
 					<svg version="1.1" class="download-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="10.044 6.944 10.912 11.16" enable-background="new 10.044 6.944 10.912 11.16" xml:space="preserve">

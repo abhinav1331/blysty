@@ -8,7 +8,7 @@ $Pins = new Pins();
 $getCurrentUser = $_GET['username'];
 $users1 = get_userdatabylogin( $getCurrentUser );
 
-if(empty($users)) {
+if(empty($users) || !isset($_GET['username'])) {
 	global $wp_query;
 	$wp_query->set_404();
 	status_header( 404 );
@@ -32,14 +32,15 @@ if(empty($users)) {
 
 				<div class="tab-target">
 					<ul>
-						<li><a href="followers.php" data-tab="followers">16 Followers</a></li>
-						<li><a href="following.php" data-tab="following">14 Following</a></li>
+						<li><a href="followers.php" data-tab="followers" class="myFollowersCount"><?php echo $users->followingCount($users1->ID , 'following_user_id') ?> Followers</a></li>
+						<li><a href="following.php" data-tab="following"><?php echo $users->followingCount($users1->ID , 'user_id') ?> Following</a></li>
 					</ul>
 				</div>
-
+				<?php if ($users->UserFollowStatus($users1->ID) != 2): ?>
 				<div class="follow-btn">
-					<a href="#" class="costom-btn green-btn">Follow Emma</a>
+					<a href="javascript:void(0)" <?php if($users->UserFollowStatus($users1->ID) != "Following") { ?> onclick="followTheUser('<?php echo $users1->ID; ?>' , this);" <?php } ?> class="costom-btn green-btn"><?php echo $users->UserFollowStatus($users1->ID); ?> <?php echo $users->viewUserDetails($users1->ID , "Name"); ?></a>
 				</div>
+				<?php endif ?>
 			</div>
 		</div>
 

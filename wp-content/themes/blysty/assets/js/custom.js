@@ -135,7 +135,7 @@ jQuery(function($) {
 						} else {
 							jQuery(".myDataChange").empty().append(data);
 							jQuery("#createBlysty").modal("hide");
-							jQuery("#chooseBlysty").modal("show");blystIDChoose
+							jQuery("#chooseBlysty").modal("show");
 							setTimeout(function(){
 								 var blystId = jQuery("input[name='BlystId']").val();
 								 jQuery("input[name='blystIDChoose']").val(blystId);
@@ -543,3 +543,55 @@ function enableScroll() {
     window.ontouchmove = null;  
     document.onkeydown = null;  
 }
+
+function followTheUser(event , status) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/followUser.php',	
+		cache: false,
+		data:{event:event,format:'raw'},
+		success:function(data){
+			if(data == "already") {
+				toastr.error("You are already following");
+			} else {
+				var MyCount = jQuery(".myFollowersCount").text();
+				var arrayStr = MyCount.split(" ");
+				var Finval = parseInt(arrayStr[0]) + 1;
+				jQuery(".myFollowersCount").text(Finval+" Followers");
+				jQuery(status).removeAttr("onclick");
+				jQuery(status).text("Following "+data);
+				toastr.success("You are now following "+data);
+			}
+			
+		}
+		
+	});
+}
+
+
+jQuery(document).ready(function(){
+	setInterval(function(){ 
+		var MyDivLen = jQuery(".ourCateImage").length;
+		if(MyDivLen != 0) {
+			jQuery(".ourCateImage").each(function(){
+				var Order = jQuery(this).find(".img-wrapper").find(".mySelectedCatEQ").val();
+				var pinID = jQuery(this).find(".img-wrapper").find(".mySelectedPins").val();
+				var catID = jQuery(this).find(".img-wrapper").find(".mySelectedCat").val();
+				jQuery.ajax({
+					async: true,
+					type: "POST",
+					url: link+'wp-content/themes/blysty/ajax/getLatestPinOfCat.php',	
+					cache: false,
+					data:{Order:Order,pinID:pinID,catID:catID,format:'raw'},
+					success:function(data){
+						if(data != "") {
+							jQuery(".ourCateImage:eq("+Order+")").empty().append(data);
+						}
+					}
+					
+				});
+			})
+		}
+	 }, 60000);
+})

@@ -30,8 +30,8 @@ echo "</pre>";*/
 					<ul>
 						<li><a href="<?php echo esc_url( get_permalink(18) ); ?>" data-tab="blysts">Blysts</a></li>
 						<li class=""><a href="<?php echo esc_url( get_permalink(21) ); ?>" data-tab="blystboards">BlystBoards</a></li>
-						<li><a href="followers.php" data-tab="followers">16 Followers</a></li>
-						<li><a href="following.php" data-tab="following">14 Following</a></li>
+						<li><a href="followers.php" data-tab="followers"><?php echo $users->followingCount($users1->ID , 'user_id') ?> Followers</a></li>
+						<li><a href="following.php" data-tab="following"><?php echo $users->followingCount($users1->ID , 'following_user_id') ?> Following</a></li>
 					</ul>
 				</div>
 			</div>
@@ -44,15 +44,17 @@ echo "</pre>";*/
 					<div class="tab-section post-gallery">
 						<div class="post-list grid">
 							<div class="grid-item post-wrapper create">
-								<div class="post">
-									<div class="add-bord">
-										<span>
-											<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="37px" height="37px" viewBox="5.498 2.397 20.004 20.005" enable-background="new 5.498 2.397 20.004 20.005" xml:space="preserve">
-												<path fill="#8fcc93" d="M24.453,10.197h-6.75v-6.75c0-0.58-0.47-1.049-1.049-1.049h-2.308c-0.58,0-1.049,0.47-1.049,1.049v6.75h-6.75 c-0.58,0-1.049,0.47-1.049,1.049v2.308c0,0.58,0.47,1.049,1.049,1.049h6.75v6.75c0,0.579,0.47,1.049,1.049,1.049h2.309 c0.579,0,1.049-0.47,1.049-1.049v-6.75h6.75c0.579,0,1.049-0.47,1.049-1.049v-2.308C25.502,10.667,25.033,10.197,24.453,10.197z"></path>
-											</svg>
-										</span>
+								<div class="postWprr">
+									<div class="post">
+										<div class="add-bord">
+											<span>
+												<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="37px" height="37px" viewBox="5.498 2.397 20.004 20.005" enable-background="new 5.498 2.397 20.004 20.005" xml:space="preserve">
+													<path fill="#8fcc93" d="M24.453,10.197h-6.75v-6.75c0-0.58-0.47-1.049-1.049-1.049h-2.308c-0.58,0-1.049,0.47-1.049,1.049v6.75h-6.75 c-0.58,0-1.049,0.47-1.049,1.049v2.308c0,0.58,0.47,1.049,1.049,1.049h6.75v6.75c0,0.579,0.47,1.049,1.049,1.049h2.309 c0.579,0,1.049-0.47,1.049-1.049v-6.75h6.75c0.579,0,1.049-0.47,1.049-1.049v-2.308C25.502,10.667,25.033,10.197,24.453,10.197z"></path>
+												</svg>
+											</span>
 
-										<h3>Create New Blyst</h3>
+											<h3>Create New Blyst</h3>
+										</div>
 									</div>
 								</div>
 							</div>

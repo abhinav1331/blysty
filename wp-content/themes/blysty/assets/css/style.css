@@ -112,7 +112,8 @@ header .header-section > div:first-child { margin-left: 0; }
 .tab-section .post-details { padding-bottom: 0; }
 .post-details .edit { background-color: #e7e8ea; color: #929292; display: block; font-family: 'FuturaBT-Heavy'; font-size: 20px; padding: 10px 0; text-align: center; -webkit-transition: all .25s ease-in-out; -ms-transition: all .25s ease-in-out; transition: all .25s ease-in-out; }
 .post-details .edit:hover { background-color: #8fcc93; color: #fff; }
-.create { height: 100%; }
+.create { height: 0%; padding-bottom: 34%; }
+.postWprr {bottom: 0px;left: 7px;position: absolute;right: 7px;top: 7px;}
 .create .post { background-color: #fff; border: 5px solid #8fcc93; display: table; height: 100%; padding: 20px; text-align: center; width: 100%; }
 .add-bord { display: table-cell; vertical-align: middle; }
 .add-bord > span { border: 5px solid #8fcc93; border-radius: 30px; display: inline-block; padding: 15px 20px; }

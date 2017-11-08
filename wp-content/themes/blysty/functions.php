@@ -1140,11 +1140,12 @@ Class Pins {
 	function getMyBlystBoard($userID , $visibility) {
 		global $wpdb;
 		$i =1;
-		echo "SELECT * FROM `im_blyst_board` WHERE `user_id` = $userID AND `visibility` = $visibility";
 		$im_blyst_board = $wpdb->get_results("SELECT * FROM `im_blyst_board` WHERE `user_id` = $userID AND `visibility` = $visibility");
 		foreach ($im_blyst_board as $key => $value) {
 			$myBlystName = $value->name;
 			$blystID = $value->id;
+			$varMYboardCount = $wpdb->get_var("SELECT count(`id`) FROM `im_pins` WHERE `board_id` = $blystID ");
+			if($varMYboardCount != 0) {
 			?>
 			<div class="grid-item post-wrapper <?php if($i == 1) { echo  'active'; } ?>">
 				<div class="wrapper">
@@ -1178,6 +1179,7 @@ Class Pins {
 			</div>
 			<?php
 			$i++;
+			}
 		}
 	}
 
@@ -1243,7 +1245,69 @@ Class Pins {
 		$wpdb->query("UPDATE `im_blyst_board` SET `$coumn` = '$updatedValue' WHERE `id` = $boardID");
 		return 1;
 	}
+	function getMyCategories() {
+		global $wpdb;
+		$getAllCate = $wpdb->get_results("SELECT * FROM `im_category_pins`");
+		foreach ($getAllCate as $key => $value) {
+			?>
+				<li><a href="<?php echo esc_url( get_permalink(31) ); ?>&categoryId=<?php echo $value->id; ?>"><?php echo $value->category_name; ?></a></li>
+			<?php
+		}
+	}
 
+	function getPopularCategories() {
+		global $wpdb;
+		$i=0;
+		$getAllCate = $wpdb->get_results("SELECT * FROM `im_category_pins` ORDER BY RAND()");
+		$myArra = array();
+		$myArraPins = array();
+		foreach ($getAllCate as $key => $value) {
+			$getLatestPin = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `category` = $value->id ORDER BY `ID` DESC LIMIT 1");
+			if(!empty($getLatestPin) & $i<4) {
+				$myArra[] = $value->id;
+				$myArraPins[] = $getLatestPin[0]->id;
+			?>
+			<div class="col-sm-6 ourCateImage">
+				<div class="img-wrapper">
+					<input type="hidden" class="mySelectedCat" value='<?php echo $value->id ?>'>
+					<input type="hidden" class="mySelectedCatEQ" value='<?php echo $i; ?>'>
+					<input type="hidden" class="mySelectedPins" value='<?php echo $getLatestPin[0]->id ?>'>
+					<figure>
+						<figcaption style="background-image: url(<?php echo $getLatestPin[0]->attachment; ?>);"></figcaption>
+						<legend><a href="<?php echo esc_url( get_permalink(31) ); ?>&categoryId=<?php echo $value->id; ?>"><?php echo $value->category_name; ?></a></legend>
+					</figure>
+				</div>
+			</div>
+			<?php
+			$i++;
+			}
+		}
+		?>
+		<?php
+	}
+
+
+	function getLatestPin($catID , $pinID , $order) {
+		global $wpdb;
+		$getLatestPin = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `category` = $catID ORDER BY `ID` DESC LIMIT 1");
+		if($getLatestPin[0]->id != $pinID) {
+			$cateName = $wpdb->get_results("SELECT * FROM `im_category_pins` WHERE `id` = $catID");
+			?>
+				<div class="img-wrapper">
+					<input type="hidden" class="mySelectedCat" value='<?php echo $catID?>'>
+					<input type="hidden" class="mySelectedCatEQ" value='<?php echo $order?>'>
+					<input type="hidden" class="mySelectedPins" value='<?php echo $pinID ?>'>
+					<figure>
+						<figcaption style="background-image: url(<?php echo $getLatestPin[0]->attachment; ?>);"></figcaption>
+						<legend><a href="<?php echo esc_url( get_permalink(31) ); ?>&categoryId=<?php echo $catID; ?>"><?php echo $cateName[0]->category_name; ?></a></legend>
+					</figure>
+				</div>
+			<?php
+		} else {
+			return ;
+		}
+
+	}
 }
 
 
@@ -1304,6 +1368,71 @@ Class users {
 		global $wpdb;
 		$myPins = $wpdb->get_results("SELECT * FROM `im_category_pins`CROSS JOIN `im_pins` ON im_pins.category = im_category_pins.id WHERE im_pins.pin_author = $userid AND im_pins.visibility = $status ");
 		return $myPins;
+	}
+
+	function followingCount($userID , $status) {
+		global $wpdb;
+		return $wpdb->get_var("SELECT count(`id`) FROM `im_follow_list` WHERE `$status` = $userID");
+	}
+
+	function UserFollowStatus($userID) {
+		global $wpdb;
+		$user = wp_get_current_user();
+
+		if($userID == $user->ID) {
+			return 2;
+		} else {
+			$getUserStatus = $wpdb->get_var("SELECT count(`id`) FROM `im_follow_list` WHERE `following_user_id` = $userID AND `user_id` = $user->ID");
+			if($getUserStatus == 0) {
+				return "Follow";
+			} else {
+				return "Following";
+			}
+		}
+	}
+
+	function followUser($userID) {
+		global $wpdb;
+		$user = wp_get_current_user();
+		$countt = $wpdb->get_var("SELECT count(`id`) FROM `im_follow_list` WHERE `following_user_id` = $userID AND `user_id` = $user->ID");
+		if($countt == 0) {
+			$wpdb->insert( 'im_follow_list', array(
+				'user_id' => $user->ID,
+				'following_user_id' => $userID)
+			);
+			return get_user_meta($userID , "first_name" , true);
+		} else {
+			return "already";
+		}
+		
+	}
+
+	function followList($userID , $status) {
+		global $wpdb;
+		$users = new users();
+		if($status == "following_user_id") {
+			$myVal = "user_id";
+		} else {
+			$myVal = "following_user_id";
+		}
+		$getMyList = $wpdb->get_results("SELECT * FROM `im_follow_list` WHERE `$status` = $userID");
+		foreach ($getMyList as $key => $value) {
+			$author_obj = get_user_by('id', $value->$myVal);
+			?>
+			<div class="follower">
+				<div class="follower-wrapper">
+					<a href="<?php echo esc_url( get_permalink(23) ); ?>&username=<?php echo $author_obj->user_login; ?>">
+						<figure>
+							<figcaption style="background-image: url('<?php echo $users->viewUserDetails($value->$myVal , "Image"); ?>');"></figcaption>
+							<fieldset>
+								<legend><?php echo $users->viewUserDetails($value->$myVal , "Name"); ?></legend>
+							</fieldset>
+						</figure>
+					</a>
+				</div>
+			</div>
+			<?php
+		}
 	}
 
 }

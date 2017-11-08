@@ -353,7 +353,7 @@ $user = wp_get_current_user();
 									<div class="form-row">
 										<span>Category</span>
 										<div class="form-group category-gruop">
-											<input class="form-control" type="text" name="cate" placeholder="Search" id="inputTesting">
+											<input class="form-control" type="text" name="cate" placeholder="Search" id="inputTesting" >
 											<input class="form-control" type="hidden" name="cateID" placeholder="Search" id="inputTestingHidden">
 										</div>
 										<span>Private</span>
@@ -780,7 +780,7 @@ $user = wp_get_current_user();
 <?php  unset($_SESSION['myVal']); ?>
 <?php 
 	global $wpdb;
-	$nameCat = $wpdb->get_results("SELECT * FROM `im_category_pins` ORDER BY name DESC");
+	$nameCat = $wpdb->get_results("SELECT * FROM `im_category_pins` ORDER BY `category_name` DESC");
 	foreach ($nameCat as $key => $value) {
 		$myArr[] = $value->category_name;
 	}
@@ -793,7 +793,7 @@ $user = wp_get_current_user();
 			var celestial_bodies = [
 				<?php 
 				$i=1;
-				foreach( $wpdb->get_results("SELECT * FROM `im_category_pins` ORDER BY name DESC") as $key1 => $row1) {
+				foreach( $wpdb->get_results("SELECT * FROM `im_category_pins` ORDER BY `category_name` DESC") as $key1 => $row1) {
 				if($i==1) {
 	 			} ?>
 	 				{title:"<?php echo $row1->category_name;  ?>", id:"<?php echo $row1->id; ?>"},

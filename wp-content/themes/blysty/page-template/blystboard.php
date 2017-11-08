@@ -27,8 +27,8 @@ $user = wp_get_current_user();
 					<ul>
 						<li><a href="<?php echo esc_url( get_permalink(18) ); ?>" data-tab="blysts">Blysts</a></li>
 						<li class="active"><a href="<?php echo esc_url( get_permalink(21) ); ?>" data-tab="blystboards">BlystBoards</a></li>
-						<li><a href="followers.php" data-tab="followers">16 Followers</a></li>
-						<li><a href="following.php" data-tab="following">14 Following</a></li>
+						<li><a href="followers.php" data-tab="followers"><?php echo $users->followingCount($user->ID , 'user_id') ?> Followers</a></li>
+						<li><a href="following.php" data-tab="following"><?php echo $users->followingCount($user->ID , 'following_user_id') ?> Following</a></li>
 					</ul>
 				</div>
 			</div>

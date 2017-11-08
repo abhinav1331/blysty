@@ -399,7 +399,6 @@ function likeTheBlyst(pinID , event) {
 		success:function(resp){
 			if(resp == 1) {
 				var countt = jQuery(event).find("span").text();
-				
 				var FINN = parseInt(countt) + 1;
 				jQuery(event).find("span").text(FINN);
 				jQuery(event).addClass("active");
@@ -415,7 +414,40 @@ function likeTheBlyst(pinID , event) {
 		
 	});
 }
-
+function likeTheBlystBelow(pinID , event) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'/wp-content/themes/blysty/ajax/likePin.php',	
+		cache: false,
+		data:{pinID:pinID,format:'raw'},
+		success:function(resp){
+			if(resp == 1) {
+				var countt = jQuery(event).find("span").text();
+				if(typeof countt == "string") {
+					jQuery(event).find("span").text("Liked");
+				} else {
+					var FINN = parseInt(countt) + 1;
+					jQuery(event).find("span").text(FINN);
+				}
+					jQuery(event).addClass("active");
+					toastr.success("Blyst successfully Liked");
+				
+			} else {
+				var countt = jQuery(event).find("span").text();
+				if(typeof countt == "string") {
+					jQuery(event).find("span").text("Like");
+				} else {
+					var FINN = parseInt(countt) - 1;
+					jQuery(event).find("span").text(FINN);
+				}
+				jQuery(event).removeClass("active");
+				toastr.success("Blyst successfully Unliked");
+			}
+		}
+		
+	});
+}
 
 function getMyBlyst(pinID) {
 		jQuery.ajax({
@@ -610,6 +642,20 @@ function getMyBlystDetails(pinID) {
 				jQuery(".popupinnerblystyList").empty().append(data);
 				jQuery("#blystyList").modal("show");
 			}
+		}
+		
+	});
+}
+
+function saveMyBlystNew(PiNID) {
+		jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/saveMyBlystNew.php',	
+		cache: false,
+		data:{pinID:pinID,format:'raw'},
+		success:function(data){
+			
 		}
 		
 	});

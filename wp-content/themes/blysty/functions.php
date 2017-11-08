@@ -1037,8 +1037,6 @@ Class Pins {
 			$wpdb->query("UPDATE `im_pins` SET `attachment` = $url WHERE `id` = $pin_id");
 		} else {
 			if($searchfor != "") {
-				echo "aaaaaaaaaaaaaaaa";
-				echo $searchfor;
 				$post_id = "";
 				$desc = "";
 				$image = media_sideload_image($searchfor, $post_id, $desc);
@@ -1433,13 +1431,13 @@ Class Pins {
 					<span><?php echo $users->UserFollowStatus($getMyPinDetails[0]->pin_author); ?></span>
 				</a>
 				<?php endif ?>
-				<a href="javascript:void(0)" onclick="likeTheBlyst(<?php echo $getMyPinDetails[0]->id ?>,this)" class="green-btn <?php if($Pins->currentUserLikked($getMyPinDetails[0]->id) == 1) { echo "active"; } ?>">
+				<a href="javascript:void(0)" onclick="likeTheBlystBelow(<?php echo $getMyPinDetails[0]->id ?>,this)" class="green-btn <?php if($Pins->currentUserLikked($getMyPinDetails[0]->id) == 1) { echo "active"; } ?>">
 					<svg version="1.1" class="heart-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="10px" viewBox="6.938 4.886 17.167 15.054" enable-background="new 6.938 4.886 17.167 15.054" xml:space="preserve">
 						<path d="M11.954,4.886c-1.29,0-2.579,0.496-3.546,1.463c-1.959,1.959-1.959,5.159,0,7.118l6.696,6.299 c0.124,0.1,0.273,0.174,0.422,0.174s0.297-0.05,0.421-0.174l6.696-6.299c0.967-0.967,1.463-2.257,1.463-3.546 s-0.496-2.579-1.463-3.546c-0.868-0.868-1.984-1.265-3.15-1.265c-1.413,0-2.852,0.595-3.918,1.637L15.55,6.771 c0,0-0.025,0-0.025-0.025C14.483,5.803,13.218,4.886,11.954,4.886L11.954,4.886z"></path>
 					</svg>
 					<span><?php if($Pins->currentUserLikked($getMyPinDetails[0]->id) == 1) { echo "Liked"; } else { echo "Like"; } ?></span>
 				</a>
-				<a href="#" class="green-btn">
+				<a href="javascript:void(0)" onclick="saveMyBlystNew('<?php echo $getMyPinDetails[0]->id; ?>')" class="green-btn">
 					<svg version="1.1" class="download-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="10.044 6.944 10.912 11.16" enable-background="new 10.044 6.944 10.912 11.16" xml:space="preserve">
 						<g>
 							<g>

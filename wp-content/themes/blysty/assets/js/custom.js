@@ -660,3 +660,19 @@ function saveMyBlystNew(PiNID) {
 		
 	});
 }
+
+
+function deleteMyBoard(event) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/deleteMyBoard.php',	
+		cache: false,
+		data:{event:event,format:'raw'},
+		success:function(data){
+			location.reload();
+		}
+		
+	});
+
+}

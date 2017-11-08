@@ -1269,7 +1269,7 @@ Class Pins {
 
 				<div class="form-row">
 					<span>Delete this BlystBoard</span>
-					<a href="#" class="green-btn costom-btn md-btn" onclick="deleteMyBoard('<?php echo $getMyBoard[0]->id; ?>')">Delete</a>
+					<a href="javascript:void(0)" class="green-btn costom-btn md-btn" onclick="deleteMyBoard('<?php echo $getMyBoard[0]->id; ?>')">Delete</a>
 				</div>
 
 				<div class="form-footer">
@@ -1297,6 +1297,12 @@ Class Pins {
 		global $wpdb;
 		echo "UPDATE `im_blyst_board` SET `$coumn` = '$updatedValue' WHERE `id` = $boardID";
 		$wpdb->query("UPDATE `im_blyst_board` SET `$coumn` = '$updatedValue' WHERE `id` = $boardID");
+		return 1;
+	}
+
+	function deleteMyBoard($boardID) {
+		global $wpdb;
+		$wpdb->query("DELETE FROM `im_blyst_board` WHERE `id` = $boardID");
 		return 1;
 	}
 	function getMyCategories() {

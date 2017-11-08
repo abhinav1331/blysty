@@ -780,7 +780,7 @@ Class Pins {
 						</figure>
 						<div class="post-details">
 							<div class="post-header">
-								<a href="#"><span><?php echo count(json_decode($value->blyst_content)) ?></span><h3><?php echo $value->name; ?></h3></a>
+								<a href="javascript:void(0)" onclick="getMyBlystDetails(<?php echo $value->id; ?>)"><span><?php echo count(json_decode($value->blyst_content)) ?></span><h3><?php echo $value->name; ?></h3></a>
 							</div>
 
 							<div class="post-info">
@@ -1362,6 +1362,92 @@ Class Pins {
 		} else {
 			return ;
 		}
+
+	}
+
+
+
+	function getMyBlystDetails($pinID) {
+		global $wpdb;
+		$Pins = new Pins();
+		$getMyPinDetails = $wpdb->get_results("SELECT * FROM `im_pins` WHERE `id` = $pinID");
+
+			$myName = get_user_meta($getMyPinDetails[0]->pin_author , "first_name" , true);
+			$profileImage = get_user_meta($getMyPinDetails[0]->pin_author , "profileImage" , true);
+		?>
+		<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+			<div class="blystyListhead">
+				<div class="chooseBlystyImg">
+					<figure style="background-image: url('<?php echo $getMyPinDetails[0]->attachment; ?>');"></figure>
+					<div class="post-details">
+						<div class="post-header">
+							<a href="javascript:void(0)"><span><?php echo count(json_decode($getMyPinDetails[0]->blyst_content)) ?></span><h3><?php echo $getMyPinDetails[0]->name; ?></h3></a>
+						</div>
+
+						<div class="post-info">
+							<div class="avatar">
+								<figure style="background-image: url('<?php echo $profileImage; ?>');"></figure>
+							</div>
+							<div class="post-arthur">
+								<h4><?php echo $myName; ?></h4>
+							</div>
+							<div class="liks">
+								<div class="counter">
+									<a href="javascript:void(0)" onclick="likeTheBlyst(<?php echo $getMyPinDetails[0]->id ?>,this)" class="<?php if($Pins->currentUserLikked($getMyPinDetails[0]->id) == 1) { echo "active"; } ?>"><i class="fa fa-heart"></i> <span><?php echo $Pins->getPinsLike($getMyPinDetails[0]->id) ?></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="blystyListContent">
+				<ul>
+					<?php 
+						$myContent = json_decode($getMyPinDetails[0]->blyst_content);
+						foreach ($myContent as $key => $valueContent) {
+							?>
+								<li><?php echo $valueContent; ?></li>
+							<?php
+						}
+					 ?>
+				</ul>
+			</div>
+
+			<div class="action">
+				<a href="#" class="green-btn">
+					<svg version="1.1" class="share-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="14px" viewBox="7.175 5.252 16.65 14.296" enable-background="new 7.175 5.252 16.65 14.296" xml:space="preserve">
+						<g>
+							<path d="M23.825,10.733l-6.403-5.481v2.621C15.185,8.098,7.225,9.594,7.175,19.548c0,0,1.93-6.271,10.247-6.5v3.167L23.825,10.733z"></path>
+						</g>
+					</svg>
+					<span>Share</span>
+				</a>
+				<a href="#" class="green-btn">
+					<svg version="1.1" class="plus-icon" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="9.3 6.2 12.4 12.399" enable-background="new 9.3 6.2 12.4 12.399" xml:space="preserve">
+						<g transform="translate(0,-952.36218)">
+							<path d="M15.5,958.562c-0.822,0-1.488,0.666-1.488,1.488v3.224h-3.224c-0.822,0-1.488,0.666-1.488,1.488s0.667,1.488,1.488,1.488 h3.224v3.223c0,0.822,0.666,1.488,1.488,1.488c0.822,0,1.488-0.666,1.488-1.487v-3.224h3.224c0.821,0,1.488-0.667,1.488-1.488 s-0.667-1.488-1.488-1.488h-3.224v-3.224C16.988,959.228,16.322,958.562,15.5,958.562L15.5,958.562z"></path>
+						</g>
+					</svg>
+					<span>Follow</span>
+				</a>
+				<a href="#" class="green-btn">
+					<svg version="1.1" class="heart-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="10px" viewBox="6.938 4.886 17.167 15.054" enable-background="new 6.938 4.886 17.167 15.054" xml:space="preserve">
+						<path d="M11.954,4.886c-1.29,0-2.579,0.496-3.546,1.463c-1.959,1.959-1.959,5.159,0,7.118l6.696,6.299 c0.124,0.1,0.273,0.174,0.422,0.174s0.297-0.05,0.421-0.174l6.696-6.299c0.967-0.967,1.463-2.257,1.463-3.546 s-0.496-2.579-1.463-3.546c-0.868-0.868-1.984-1.265-3.15-1.265c-1.413,0-2.852,0.595-3.918,1.637L15.55,6.771 c0,0-0.025,0-0.025-0.025C14.483,5.803,13.218,4.886,11.954,4.886L11.954,4.886z"></path>
+					</svg>
+					<span>Like</span>
+				</a>
+				<a href="#" class="green-btn">
+					<svg version="1.1" class="download-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="10.044 6.944 10.912 11.16" enable-background="new 10.044 6.944 10.912 11.16" xml:space="preserve">
+						<g>
+							<g>
+								<path d="M15.074,14.584l-2.892-2.929c-0.467-0.468,0.233-1.169,0.7-0.702l1.949,1.955c0.096,0.096,0.174,0.063,0.174-0.074V7.441 c0-0.275,0.222-0.498,0.495-0.498c0.275,0,0.495,0.223,0.495,0.498v5.394c0,0.136,0.077,0.17,0.174,0.074l1.949-1.955 c0.467-0.468,1.167,0.234,0.7,0.702l-2.874,2.925C15.704,14.827,15.314,14.828,15.074,14.584z M19.964,16.865v-1.737 c0-0.274,0.222-0.496,0.496-0.496s0.496,0.222,0.496,0.496v2.233c0,0.412-0.335,0.742-0.746,0.742h-9.42 c-0.41,0-0.746-0.333-0.746-0.742v-2.233c0-0.274,0.222-0.496,0.496-0.496s0.496,0.222,0.496,0.496v1.737 c0,0.135,0.111,0.246,0.248,0.246h8.432C19.852,17.111,19.964,17.002,19.964,16.865z"/>
+							</g>
+						</g>
+					</svg>
+					<span>Save</span>
+				</a>
+			</div>
+		<?php
 
 	}
 }

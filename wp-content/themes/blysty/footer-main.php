@@ -61,7 +61,7 @@ $user = wp_get_current_user();
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<div class="blystyList popupinner">
+					<div class="blystyList popupinner popupinnerblystyList">
 						<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
 						<div class="blystyListhead">
 							<div class="chooseBlystyImg">

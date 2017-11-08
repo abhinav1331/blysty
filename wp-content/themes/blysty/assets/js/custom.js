@@ -595,4 +595,21 @@ jQuery(document).ready(function(){
 			})
 		}
 	 }, 60000);
-})
+});
+
+function getMyBlystDetails(pinID) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/getMyBlystDetails.php',	
+		cache: false,
+		data:{pinID:pinID,format:'raw'},
+		success:function(data){
+			if(data != "") {
+				jQuery(".popupinnerblystyList").empty().append(data);
+				jQuery("#blystyList").modal("show");
+			}
+		}
+		
+	});
+}

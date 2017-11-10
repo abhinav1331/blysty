@@ -77,10 +77,10 @@ header .header-section > div:first-child {margin-left: 0;}
 .post-tumb img {width: 100%;}
 .post-details {padding: 20px 0px;}
 .post-details > div {padding-left: 15px;padding-right: 15px;}
-.post-header a {border-bottom: 2px solid #e1e1e1;display: table;table-layout: auto;padding-bottom: 15px;}
+.post-header a {border-bottom: 2px solid #e1e1e1;display: table;table-layout: auto;padding-bottom: 15px;width: 100%;}
 .post-header a > h3, .post-header a > span {display: table-cell;vertical-align: top;}
 .post-header h3 {color: #6b6c70;font-family: 'FuturaBT-Heavy';font-size: 26px;position: relative;-webkit-transition: all .25s ease-in-out;-ms-transition: all .25s ease-in-out;transition: all .25s ease-in-out;}
-.post-header span {color: #8fcc93;font-family: 'Open Sans', sans-serif;font-size: 76px;font-weight: 700;line-height: .8;padding-right: 20px;}
+.post-header span {color: #8fcc93;font-family: 'Open Sans', sans-serif;font-size: 76px;font-weight: 700;line-height: .8;padding-right: 20px;width: 60px;}
 .post-header a:hover h3 {color: #000;}
 .post-info {padding-top: 25px;}
 .post-info > div {display: inline-block;vertical-align: middle;}
@@ -618,6 +618,8 @@ a:hover svg {fill: #b7b7b7;stroke: #d5d6d8;stroke-dasharray: 187;stroke-dashoffs
 	.img-wrapper legend, .img-wrapper legend active {font-size: 22px;padding: 10px;}
 	.categories-header {padding: 15px;}
 	.categories-header h4 {font-size: 28px;}
+
+	.post-header span {width: 40px;}
 }
 @media only screen and (max-width: 1300px) {
 	header .header-section{width: 39%;}

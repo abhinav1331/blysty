@@ -61,7 +61,7 @@ $user = wp_get_current_user();
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<div class="blystyList popupinner">
+					<div class="blystyList popupinner popupinnerblystyList">
 						<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
 						<div class="blystyListhead">
 							<div class="chooseBlystyImg">
@@ -699,7 +699,7 @@ $user = wp_get_current_user();
 				<div class="modal-content">
 					<div class="usermod popupinner">
 						<ul>
-							<li><a href="profile.php">
+							<li><a href="<?php echo esc_url( get_permalink(18) ); ?>">
 								<svg version="1.1" class="plus-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="22px" viewBox="5.498 2.397 20.004 20.005" enable-background="new 5.498 2.397 20.004 20.005" xml:space="preserve">
 									<path fill="#6c9e72" d="M24.453,10.197h-6.75v-6.75c0-0.58-0.47-1.049-1.049-1.049h-2.308c-0.58,0-1.049,0.47-1.049,1.049v6.75h-6.75 c-0.58,0-1.049,0.47-1.049,1.049v2.308c0,0.58,0.47,1.049,1.049,1.049h6.75v6.75c0,0.579,0.47,1.049,1.049,1.049h2.309 c0.579,0,1.049-0.47,1.049-1.049v-6.75h6.75c0.579,0,1.049-0.47,1.049-1.049v-2.308C25.502,10.667,25.033,10.197,24.453,10.197z"></path>
 								</svg>

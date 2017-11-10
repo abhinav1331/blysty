@@ -305,6 +305,7 @@ function saveblyst(event) {
 	var blystId = jQuery("input[name='myPagination']").val();
 
 		blystId = parseInt(blystId) + 1;
+		jQuery("input[name='myPagination']").val(blystId);
 		jQuery.ajax({
 			async: true,
 			type: "POST",
@@ -320,18 +321,19 @@ function saveblyst(event) {
 				} else {
      				 jQuery(".loader").show();
 					jQuery(".post-list").append(resp);
-					jQuery("input[name='myPagination']").val(blystId);
 					var $grid = jQuery('.grid').isotope({
-						// options
-						itemSelector: '.grid-item',
-						layoutMode: 'packery'
+					  itemSelector: '.grid-item',
+					  masonry: {
+					    columnWidth: 80
+					  }
 					});
-					// layout Isotope after each image loads
-					$grid.imagesLoaded().progress( function() {
-						$grid.isotope('layout');
-					});
-					allEvents();
-				}
+
+					 var $items = getItemElement().add( getItemElement() ).add( getItemElement() );
+					  // append elements to container
+					  	$grid.append( $items )
+					    // add and lay out newly appended elements
+					    .isotope( 'appended', $items );
+					}
 				
 			}
 			
@@ -342,8 +344,19 @@ function saveblyst(event) {
     });
   })
 //Save a Pin 
+
+
+function getItemElement() {
+  var $item = jQuery('<div class="grid-item"></div>');
+  // add width and height class
+  var wRand = Math.random();
+  var hRand = Math.random();
+  var widthClass = wRand > 0.85 ? 'grid-item--width3' : wRand > 0.7 ? 'grid-item--width2' : '';
+  var heightClass = hRand > 0.85 ? 'grid-item--height3' : hRand > 0.5 ? 'grid-item--height2' : '';
+  $item.addClass( widthClass ).addClass( heightClass );
+  return $item;
+}
 	function allEvents() {
-		alert("aaaaaaaaaaa");
 		var headheight = jQuery('header').outerHeight();
 		jQuery('.page-wraspper').css('padding-top', headheight);
 
@@ -414,7 +427,40 @@ function likeTheBlyst(pinID , event) {
 		
 	});
 }
-
+function likeTheBlystBelow(pinID , event) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'/wp-content/themes/blysty/ajax/likePin.php',	
+		cache: false,
+		data:{pinID:pinID,format:'raw'},
+		success:function(resp){
+			if(resp == 1) {
+				var countt = jQuery(event).find("span").text();
+				if(typeof countt == "string") {
+					jQuery(event).find("span").text("Liked");
+				} else {
+					var FINN = parseInt(countt) + 1;
+					jQuery(event).find("span").text(FINN);
+				}
+					jQuery(event).addClass("active");
+					toastr.success("Blyst successfully Liked");
+				
+			} else {
+				var countt = jQuery(event).find("span").text();
+				if(typeof countt == "string") {
+					jQuery(event).find("span").text("Like");
+				} else {
+					var FINN = parseInt(countt) - 1;
+					jQuery(event).find("span").text(FINN);
+				}
+				jQuery(event).removeClass("active");
+				toastr.success("Blyst successfully Unliked");
+			}
+		}
+		
+	});
+}
 
 function getMyBlyst(pinID) {
 		jQuery.ajax({
@@ -595,4 +641,51 @@ jQuery(document).ready(function(){
 			})
 		}
 	 }, 60000);
-})
+});
+
+function getMyBlystDetails(pinID) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/getMyBlystDetails.php',	
+		cache: false,
+		data:{pinID:pinID,format:'raw'},
+		success:function(data){
+			if(data != "") {
+				jQuery(".popupinnerblystyList").empty().append(data);
+				jQuery("#blystyList").modal("show");
+			}
+		}
+		
+	});
+}
+
+function saveMyBlystNew(PiNID) {
+		jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/saveMyBlystNew.php',	
+		cache: false,
+		data:{pinID:pinID,format:'raw'},
+		success:function(data){
+			
+		}
+		
+	});
+}
+
+
+function deleteMyBoard(event) {
+	jQuery.ajax({
+		async: true,
+		type: "POST",
+		url: link+'wp-content/themes/blysty/ajax/deleteMyBoard.php',	
+		cache: false,
+		data:{event:event,format:'raw'},
+		success:function(data){
+			location.reload();
+		}
+		
+	});
+
+}

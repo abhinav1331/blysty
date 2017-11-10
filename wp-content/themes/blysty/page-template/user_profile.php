@@ -32,8 +32,8 @@ if(empty($users) || !isset($_GET['username'])) {
 
 				<div class="tab-target">
 					<ul>
-						<li><a href="followers.php" data-tab="followers" class="myFollowersCount"><?php echo $users->followingCount($users1->ID , 'following_user_id') ?> Followers</a></li>
-						<li><a href="following.php" data-tab="following"><?php echo $users->followingCount($users1->ID , 'user_id') ?> Following</a></li>
+						<li><a href="<?php echo esc_url( get_permalink(25) ); ?>&username=<?php echo $getCurrentUser ?>" data-tab="followers" class="myFollowersCount"><?php echo $users->followingCount($users1->ID , 'following_user_id') ?> Followers</a></li>
+						<li><a href="<?php echo esc_url( get_permalink(27) ); ?>&username=<?php echo $getCurrentUser ?>" data-tab="following"><?php echo $users->followingCount($users1->ID , 'user_id') ?> Following</a></li>
 					</ul>
 				</div>
 				<?php if ($users->UserFollowStatus($users1->ID) != 2): ?>

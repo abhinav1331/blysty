@@ -597,7 +597,11 @@ function add_my_css() {
     wp_enqueue_style('jQuery_ui_jscss',   'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
     wp_enqueue_style('toastrsss',  esc_url( get_template_directory_uri() ). '/assets/css/toastr.css');
     wp_enqueue_style('void_autocomplete',  esc_url( get_template_directory_uri() ). '/assets/css/void_autocomplete.css');
-    wp_enqueue_style('style',  esc_url( get_template_directory_uri() ). '/assets/css/style.css');
+    if ( !is_page('about-us')) {
+ 	   wp_enqueue_style('style',  esc_url( get_template_directory_uri() ). '/assets/css/style.css');
+    } else {
+ 	   wp_enqueue_style('menu-style',  esc_url( get_template_directory_uri() ). '/assets/css/menu-style.css');
+    }
    
 }
 add_action('wp_enqueue_scripts', 'add_my_css');
@@ -1581,6 +1585,23 @@ Class users {
 			</div>
 			<?php
 		}
+	}
+
+}
+
+Class pagesClass {
+	function getBasicFields($id , $slug , $identifier) {
+		global $wpdb; 
+		if($identifier == "page") {
+			return $dataOut = get_post_meta($id , $slug , true);
+		} elseif($identifier == "user") {
+			return $dataOut = get_user_meta($id , $slug , true);
+		}
+	}
+
+	function getImageSrc($imgID) {
+		$thumb = wp_get_attachment_image_src($imgID, 'full' );
+		return $url = $thumb['0'];
 	}
 
 }

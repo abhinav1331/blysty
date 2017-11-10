@@ -24,7 +24,8 @@ jQuery(document).ready(function($) {
 	});
 
 	/* Function for all Events (Load, Ready and Resize) */
-	function allEvents() {		var headheight = $('header').outerHeight();
+	function allEvents() {
+		var headheight = $('header').outerHeight();
 		$('.page-wraspper').css('padding-top', headheight);
 
 		var target = $('.tab-target').find('.active').find('a').data('tab');
@@ -168,36 +169,63 @@ jQuery(document).ready(function($) {
 		console.log(html + '');
 	});
 
-	var withRand = function($con, $item) {
+/*	var withRand = function($con, $item) {
 		var interTime = jQuery($con).data('interval') * 3000;
 		var $item = jQuery($con).data('target');
-		var windowVar = window.location.href;
-		var res = windowVar.split("/");
-		var pg_url = res[res.length - 2];
-		if(pg_url == "login") {
-			setInterval(function() {
-				var pos = jQuery($con + " " + $item).length;
-				var randPos = Math.floor(Math.random() * pos);
-				jQuery($con + " " + $item).removeClass('ovr');
-				setTimeout(function() {
-					jQuery.ajax({
-						async: true,
-						type: "POST",
-						url: link+'/wp-content/themes/blysty/ajax/getRandomPin.php',		
-						dataType: 'html',
-						cache: false,
-						data:{format:'raw'},
-						success:function(resp){
-							jQuery($con + " " + $item).eq(randPos).empty().append(resp);
-						}
-						
-					});
-						jQuery($con + " " + $item).eq(randPos).addClass('ovr');
-				}, 2000)
-			}, interTime)
-		}
+		setInterval(function() {
+			var pos = jQuery($con + " " + $item).length;
+			var randPos = Math.floor(Math.random() * pos);
+			jQuery($con + " " + $item).removeClass('ovr');
+			setTimeout(function() {
+				jQuery.ajax({
+					async: true,
+					type: "POST",
+					url: link+'/wp-content/themes/blysty/ajax/getRandomPin.php',		
+					dataType: 'html',
+					cache: false,
+					data:{format:'raw'},
+					success:function(resp){
+						jQuery($con + " " + $item).eq(randPos).empty().append(resp);
+					}
+					
+				});
+				jQuery($con + " " + $item).eq(randPos).addClass('ovr');
+			}, 500)
+		}, interTime)
 	};
-	withRand('.logincon');
+	withRand('.logincon');*/
+
+	var withoutRandom = function($con) {
+	var interTime = jQuery($con).data('interval') * 3000;
+	var $item = jQuery($con).data('target');
+	setInterval(function() {
+		var $hasItem = jQuery($con + ' ' + $item).hasClass('ovr');
+		if (!$hasItem) {
+			jQuery($con + ' ' + $item).first().addClass('ovr');
+		} else {
+			var pos = jQuery($con).find('.ovr').index();
+			var $lastItem = jQuery($con + ' ' + $item).last().hasClass('ovr');
+			jQuery.ajax({
+				async: true,
+				type: "POST",
+				url: link+'/wp-content/themes/blysty/ajax/getRandomPin.php',		
+				dataType: 'html',
+				cache: false,
+				data:{format:'raw'},
+				success:function(resp){
+					jQuery($con + ' ' + $item).eq(pos).removeClass('ovr');
+					setTimeout(function(){  jQuery($con + ' ' + $item).eq(pos).empty().append(resp); }, 500);
+				}
+			});
+			if($lastItem) {
+				jQuery($con + ' ' + $item).first().addClass('ovr');
+			} else {
+				jQuery($con + ' ' + $item).eq(pos + 1).addClass('ovr');
+			}
+		}
+	}, interTime)
+};
+withoutRandom('.logincon');
 
 	$(window).on("load",function() {
 		$(".listHeight").mCustomScrollbar({

@@ -660,7 +660,7 @@ function getMyBlystDetails(pinID) {
 	});
 }
 
-function saveMyBlystNew(PiNID) {
+function saveMyBlystNew(pinID) {
 		jQuery.ajax({
 		async: true,
 		type: "POST",
@@ -668,7 +668,13 @@ function saveMyBlystNew(PiNID) {
 		cache: false,
 		data:{pinID:pinID,format:'raw'},
 		success:function(data){
-			
+			jQuery(".myDataChange").empty().append(data);
+			jQuery("#createBlysty").modal("hide");
+			jQuery("#chooseBlysty").modal("show");
+			setTimeout(function(){
+				 var blystId = jQuery("input[name='BlystId']").val();
+				 jQuery("input[name='blystIDChoose']").val(blystId);
+			}, 1000);
 		}
 		
 	});

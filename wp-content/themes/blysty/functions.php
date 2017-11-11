@@ -567,7 +567,7 @@ require get_parent_theme_file_path( '/inc/customizer.php' );
  */
 require get_parent_theme_file_path( '/inc/icon-functions.php' );
 
-
+remove_filter('widget_text_content', 'wpautop');
 function add_my_js() {
 
     
@@ -1091,7 +1091,7 @@ Class Pins {
 				<?php
 			}
 			?>
-			<div class="post">
+			<div class="post hello<?php echo $i; ?>">
 				<figure class="post-tumb" style="background-image: url('<?php echo $value->attachment; ?>');"></figure>
 				<div class="post-details">
 					<div class="post-header">
@@ -1150,6 +1150,7 @@ Class Pins {
 							}
 						 ?>
 					</ul>
+				</div>
 				</div>
 
 				<!-- <div class="action">
